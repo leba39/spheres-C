@@ -1,0 +1,19 @@
+Sphere Data File
+radius color
+18.230	blue
+35.601	yellow
+1.406	red
+25.505	pink
+32.111	yellow
+3.458	yellow
+14.152	pink
+24.028	yellow
+32.157	blue
+26.696	blue
+23.118	yellow
+14.653	red
+11.016	pink
+26.052	blue
+16.659	yellow
+0.023	pink
+3.582	blue

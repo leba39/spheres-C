@@ -1,0 +1,31 @@
+Enter Name of Data File: dataFile
+ERROR: file not open.
+
+Enter Name of Data File: sphereData
+ERROR: file not open.
+
+Enter Name of Data File: sphereData.txt
+
+      Number      Radius       Color        Area      Volume
+           1       		18.23        	blue     4176.21    25377.47
+           2       		35.60      	yellow    15927.00   189005.67
+           3        		1.41         	red       24.84       11.64
+           4       		25.50        	pink     8174.48    69496.71
+           5       		32.11      	yellow    12957.38   138691.46
+           6        		3.46      		yellow      150.27      173.21
+           7       		14.15        	pink     2516.78    11872.49
+           8       		24.03      	yellow     7255.12    58108.69
+           9       		32.16        	blue    12994.53   139288.36
+          10       		26.70        	blue     8955.75    79694.22
+          11       		23.12      	yellow     6715.99    51753.42
+          12       		14.65        	red     2698.13    13178.56
+          13       		11.02        	pink     1524.96     5599.64
+          14       		26.05        	blue     8528.87    74064.73
+          15       		16.66      	yellow     3487.44    19365.78
+          16        		0.02        	pink        0.01        0.00
+          17        		3.58        	blue      161.24      192.52
+
+Total Number of Spheres = 17
+11.76 % of Spheres are red
+13 Spheres have a Volume over 215.
+Average Area = 5661.71
