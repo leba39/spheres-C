@@ -1,4 +1,5 @@
 Write a program contained in sphere.c which does the following:
+
         - declare an array of 100 Spheres
         - Ask the user for the name of the data file
         - Open the data file
@@ -20,6 +21,8 @@ Write a program contained in sphere.c which does the following:
 All amounts should be rounded to two decimal points.
 Here's the code for the Sphere struct to get you started:
 ____________________________
+
+INTRO:
 
 struct Sphere
 {
