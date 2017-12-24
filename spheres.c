@@ -11,30 +11,35 @@
 #define FILE_MAX 255
 
 //	FUNCTION DECLARATION
-void openFile(FILE *fp);
+FILE* openFile(void);
 
 //	M A I N
 int main(void){
 
 		//VARS
-	FILE *file_pointer = NULL;	//FILE POINTER
-	
+	FILE *file_pointer;	//FILE POINTER
 
-	openFile(file_pointer);
+	file_pointer = openFile();
 	puts("FILE OPENED!");
 	fclose(file_pointer);
+
 }
 
-void openFile(FILE *fp){
+FILE* openFile(void){
 
-	char filename[FILE_MAX];	//string	
+	char filename[FILE_MAX];	//string
+	FILE *fp;
+	
 	do{
 		fprintf(stdout,"Enter name of DATAFILE:\t");
 		fscanf(stdin,"%s",filename);
 		fp = fopen(filename,"r");
 		if (fp == NULL){
-			fprintf(stderr,"Error, file not open.\n");
+			fprintf(stderr,"Error, couldnt open file. Error Num: %d\n",errno);
 			perror("Description:");
 		}
 	}while(fp == NULL);
+
+	return fp;
+
 }
