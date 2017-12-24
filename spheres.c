@@ -8,12 +8,9 @@
 #include <errno.h>
 
 //	CONSTANTs
-define FILE_MAX 255;
+#define FILE_MAX 255
 
 //	FUNCTION DECLARATION
-
-
-
 
 //	M A I N
 int main(void){
