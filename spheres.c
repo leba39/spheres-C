@@ -14,7 +14,7 @@
 //	STRUCTS
 struct sphere{
 	double radio;
-	char  *color; //why pointer?
+	char  color; //why pointer?
 };
 
 //	FUNCTION DECLARATION
@@ -27,8 +27,8 @@ int main(void){
 
 		//VARS
 	int num_spheres;
-	FILE *file_pointer;			//FILE POINTER
-	struct sphere sphere_data[MAX];		//array of spheres
+	FILE *file_pointer;					//FILE POINTER
+	struct sphere sphere_data[MAX];				//array of spheres
 
 
 	file_pointer = openFile();				//OPENING FILE
@@ -42,13 +42,11 @@ int main(void){
 		double data;
 		char color;
 	
-		color = *sphere_data[i].color;
+		color = sphere_data[i].color;
 		data = sphere_data[i].radio;
 		printf("Esfera n%d:\t%lf\t%c\n",i,data,color);
 	}
 	
-	fclose(file_pointer);
-
 }
 
 FILE* openFile(void){
@@ -96,11 +94,12 @@ int readFile(FILE* fp,struct sphere *arr_sphere){
 	do{
 		char clr[FILE_MAX];
 		end = fscanf(fp,"%lf %s",&arr_sphere[i].radio,clr); 	// -> o . ?
-		arr_sphere[i].color = clr;  				//== &clr[0]
+		arr_sphere[i].color = clr[0];  				//== &clr[0]
 		i++;
 		//lf, longfloat igual a double.
 	}while(end != EOF);
 
+	fclose(fp);	//CLOSING FILE
 
 	return (i+1);
 	//CERRAR EL ARCHIVO DESDE ESTA FUNCION DESPUES DE LECTURA.
