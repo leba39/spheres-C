@@ -40,10 +40,9 @@ int main(void){
 
 	file_pointer = openFile();				//OPENING FILE
 	num_spheres  = readFile(file_pointer,sphere_data);	//READING FILE
+	print_report(sphere_data,num_spheres);
 	
-	
-
-
+	exit(EXIT_SUCCESS);
 	
 }
 
@@ -152,13 +151,13 @@ void print_report(struct sphere *arr_sphere,int num_spheres){
 	for(int i = 0;i < num_spheres;i++){
 		
 		//getters
-		color  = arr_sphere[i]->color;
-		rad    = arr_sphere[i]->radio;			//SEE FUNCTION DECLARATION
+		color  = arr_sphere[i].color;	//WHY ISNT '->' VALID HERE  ?????
+		rad    = arr_sphere[i].radio;			//SEE FUNCTION DECLARATION
 		area   = calculate_area(arr_sphere[i]);		//content of sphere[i]
-		volume = calculate_volume(&arr_sphere[i]);	//address of sphere[i]  
+		vol = calculate_volume(&arr_sphere[i]);		//address of sphere[i]  
 		//info
 		total_area += area;
-		if (volume > VOL_LIM) num_vol++;
+		if (vol > VOL_LIM) num_vol++;
 	
 		switch (color){
 			case 'b':
@@ -184,8 +183,8 @@ void print_report(struct sphere *arr_sphere,int num_spheres){
 	
 	//Extra data: num of spheres, %red, num Vol>215 and average area.
 
-	fprintf(stdout,"Total number of spheres:\t%d",num_spheres);
-	fprintf(stdout,"%.2lf % of spheres are red.\n",(double)num_red/num_spheres);
+	fprintf(stdout,"Total number of spheres:\t%d\n",num_spheres);
+	fprintf(stdout,"%.2lf %% of spheres are red.\n",(double) num_red/num_spheres*100);
 	fprintf(stdout,"%d spheres have a volume over the %.2lf limit.\n",num_vol,VOL_LIM);
 	fprintf(stdout,"Average area:\t%.2lf\n",total_area/num_spheres);
 
@@ -200,4 +199,7 @@ void print_report(struct sphere *arr_sphere,int num_spheres){
  *
  *EASY FIX -> ANOTHER IF IN THE LOOP. we only write data in the struct
  *if previously end isnt equal to -1 eof.
+ *
+ *Why isnt arr_sphere[i]->radio valid on print_report? aren't we accessing
+ *trough pointers?? arr_sphere[i].radio works tho...
  */
