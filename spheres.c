@@ -19,22 +19,34 @@ struct sphere{
 
 //	FUNCTION DECLARATION
 FILE* openFile(void);
-void readFile(FILE* fp,struct sphere *arr_sphere);
+int readFile(FILE* fp,struct sphere *arr_sphere);
 
 
 //	M A I N
 int main(void){
 
 		//VARS
+	int num_spheres;
 	FILE *file_pointer;			//FILE POINTER
 	struct sphere sphere_data[MAX];		//array of spheres
 
 
-	file_pointer = openFile();		//OPENING FILE
-	readFile(file_pointer,sphere_data);	//READING FILE
+	file_pointer = openFile();				//OPENING FILE
+	num_spheres  = readFile(file_pointer,sphere_data);	//READING FILE
 	
-
+	
 	puts("FILE OPENED!");
+
+	for(int i = 0;i < num_spheres;i++){	//verificacion
+
+		double data;
+		char color;
+	
+		color = *sphere_data[i].color;
+		data = sphere_data[i].radio;
+		printf("Esfera n%d:\t%lf\t%c\n",i,data,color);
+	}
+	
 	fclose(file_pointer);
 
 }
@@ -58,7 +70,7 @@ FILE* openFile(void){
 
 }
 
-void readFile(FILE* fp,struct sphere *arr_sphere){
+int readFile(FILE* fp,struct sphere *arr_sphere){
 
 	//we read the file, skipping the two first lines
 	//should I use fgetc or fgets
@@ -82,14 +94,15 @@ void readFile(FILE* fp,struct sphere *arr_sphere){
 
 	i = 0;
 	do{
-
 		char clr[FILE_MAX];
 		end = fscanf(fp,"%lf %s",&arr_sphere[i].radio,clr); 	// -> o . ?
 		arr_sphere[i].color = clr;  				//== &clr[0]
+		i++;
 		//lf, longfloat igual a double.
 	}while(end != EOF);
 
 
+	return (i+1);
 	//CERRAR EL ARCHIVO DESDE ESTA FUNCION DESPUES DE LECTURA.
 	//VERIFICAR QUE SE HA LEIDO LA DATA CORRECTAMENTE.
 	
