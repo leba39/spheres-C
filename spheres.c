@@ -35,10 +35,9 @@ int main(void){
 	num_spheres  = readFile(file_pointer,sphere_data);	//READING FILE
 	
 	
-	puts("FILE OPENED!");
 
 	for(int i = 0;i < num_spheres;i++){	//verificacion
-
+		
 		double data;
 		char color;
 	
@@ -72,7 +71,7 @@ int readFile(FILE* fp,struct sphere *arr_sphere){
 
 	//we read the file, skipping the two first lines
 	//should I use fgetc or fgets
-	
+	puts("FILE OPENED!");
 	//Vars
 	char newline;
 	int end;
@@ -92,17 +91,30 @@ int readFile(FILE* fp,struct sphere *arr_sphere){
 
 	i = 0;
 	do{
+
 		char clr[FILE_MAX];
-		end = fscanf(fp,"%lf %s",&arr_sphere[i].radio,clr); 	// -> o . ?
-		arr_sphere[i].color = clr[0];  				//== &clr[0]
-		i++;
+		double rad;
+		
+		end = fscanf(fp,"%lf %s",&rad,clr);
 		//lf, longfloat igual a double.
+		if (end != EOF){
+			arr_sphere[i].radio = rad;
+			arr_sphere[i].color = clr[0];  			
+			i++;
+		}
+
 	}while(end != EOF);
 
 	fclose(fp);	//CLOSING FILE
 
-	return (i+1);
-	//CERRAR EL ARCHIVO DESDE ESTA FUNCION DESPUES DE LECTURA.
-	//VERIFICAR QUE SE HA LEIDO LA DATA CORRECTAMENTE.
-	
+	return i;
 }
+
+/*	PROBLEMS:
+ *WHY DO IT READS ONE/TWO UNEXISTANT SPHERES AT THE END?
+ *In the last iteration of the do_while in readFile
+ *i = 17, end = -1 already but it puts data on the struct.
+ *
+ *EASY FIX -> ANOTHER IF IN THE LOOP. we only write data in the struct
+ *if previously end isnt equal to -1 eof.
+ */
