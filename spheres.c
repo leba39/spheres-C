@@ -198,7 +198,7 @@ void print_report(struct sphere *arr_sphere,int num_spheres){
  *i = 17, end = -1 already but it puts data on the struct.
  *
  *EASY FIX -> ANOTHER IF IN THE LOOP. we only write data in the struct
- *if previously end isnt equal to -1 eof.
+ *if previous 'end' isnt equal to -1 eof.
  *
  *Why isnt arr_sphere[i]->radio valid on print_report? aren't we accessing
  *trough pointers?? arr_sphere[i].radio works tho...
