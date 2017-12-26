@@ -22,8 +22,9 @@ struct sphere{
 //	FUNCTION DECLARATION
 FILE* openFile(void);
 int readFile(FILE* fp,struct sphere *arr_sphere);
-//void change_rad(struct sphere *esfera,double new_rad);
-//void change_clr(struct sphere *esfera,char *new_clr);
+int pMenu(char *opt,int total);
+void change_rad(struct sphere *esfera,double new_rad);
+void change_clr(struct sphere *esfera,char new_clr);
 void print_report(struct sphere *arr_sphere,int num_spheres);
 double calculate_area(struct sphere esfera);
 double calculate_volume(struct sphere *esfera); //just to see the diff
@@ -33,16 +34,53 @@ double calculate_volume(struct sphere *esfera); //just to see the diff
 int main(void){
 
 		//VARS
+	char opt;
 	int num_spheres;
+	int sphere_mod;
 	FILE *file_pointer;					//FILE POINTER
 	struct sphere sphere_data[MAX];				//array of spheres
 
-
+		//INTRO
 	file_pointer = openFile();				//OPENING FILE
 	num_spheres  = readFile(file_pointer,sphere_data);	//READING FILE
-	print_report(sphere_data,num_spheres);
+		//MENU
+	do{
+		sphere_mod = pMenu(&opt,num_spheres);
+		switch (opt){
+			case '1':
+				//CHANGE RADIUS
+				double rad;
+				do{
+					fprintf(stdout,"\nEnter new radius:\t");
+					fscanf(stdin,"%lf",&rad);
+				}while(rad < 0); //negative radius non-valid
+				
+				change_rad(&sphere_data[sphere_mod],rad);
+				break;
+			case '2':
+				//CHANGE COLOR
+				char newcolor;
+				fprintf(stdout,"\nEnter new color:\t");
+				fscanf(stdin,"%c",&newcolor);
+				
+				change_clr(sphere_data[sphere_mod],newcolor);
+				break;
+			case '3':
+				//PRINT REPORT
+				print_report(sphere_data,num_spheres);
+				break;
+			case '4':
+				//NORMAL EXIT
+				exit(EXIT_SUCCESS);
+			default:
+				//FAILURE
+				fprintf(stdout,"Menu Error!\n");
+		}
+	}while(num_spheres != -1);
 	
-	exit(EXIT_SUCCESS);
+	//WRONG MENU. WE EXIT PROGRAM.
+	fprintf(stderr,"Wrong Option!\n\a");
+	exit(EXIT_FAILURE);
 	
 }
 
@@ -190,6 +228,71 @@ void print_report(struct sphere *arr_sphere,int num_spheres){
 
 }
 
+int pMenu(char *opt,int total){
+
+	//VARs
+	char str_user[FILE_MAX];
+	int resp;
+	int i = 0;
+	bool stop = false;	
+
+	fprintf(stdout,"MENU:\n");
+	fprintf(stdout,"\t1.Change sphere radius.\n"
+	fprintf(stdout,"\t2.Change sphere color.\n");
+	fprintf(stdout,"\t3.Print report.\n");
+	fprintf(stdout,"\t4.Exit.\n");
+
+	while (stop != true){
+		//reads entire string until newline. we only use first char.
+		str_user[i] = fgetc(stdin);	
+		if (str_user[i] == '\n' || i == (MAX_FILE-1)){
+			stop = true;
+		}else{
+			i++;
+		}
+	}
+
+	switch (str_user[0]){
+		case '1':
+			*opt = '1';
+			fprintf(stdout,"Which one? (Max:\t%d)\n",total);
+			do{
+				fscanf(stdin,"%d",&resp); //what happens if user puts char?
+
+			}while(resp < 0 || resp > (total-1));
+
+			return resp;
+		case '2':
+			*opt = '2';
+			fprintf(stdout,"Which one? (Max:\t%d)\n",total);
+			do{
+				fscanf(stdin,"%d",&resp); //I need more error control!
+
+			}while(resp < 0 || resp > (total-1));
+
+			return resp;
+		case '3':
+			*opt = '3';
+			break;		//no sphere needed
+		case '4':
+			*opt = '4';	//EXIT
+			break;
+		default:
+			return -1;	//wrong menu selection.
+
+	}
+
+}
+
+void change_rad(struct sphere *esfera,double new_rad){
+	//changes radius
+	esfera->radio = new_rad;
+}
+
+void change_clr(struct sphere *esfera,char new_clr){
+	//changes color
+	esfera->color = new_clr;
+}
 
 
 /*	PROBLEMS:
