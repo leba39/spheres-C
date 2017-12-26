@@ -45,11 +45,14 @@ int main(void){
 	num_spheres  = readFile(file_pointer,sphere_data);	//READING FILE
 		//MENU
 	do{
+		//vars
+		double rad;
+		char newcolor;
+
 		sphere_mod = pMenu(&opt,num_spheres);
 		switch (opt){
 			case '1':
 				//CHANGE RADIUS
-				double rad;
 				do{
 					fprintf(stdout,"\nEnter new radius:\t");
 					fscanf(stdin,"%lf",&rad);
@@ -59,11 +62,10 @@ int main(void){
 				break;
 			case '2':
 				//CHANGE COLOR
-				char newcolor;
 				fprintf(stdout,"\nEnter new color:\t");
 				fscanf(stdin,"%c",&newcolor);
 				
-				change_clr(sphere_data[sphere_mod],newcolor);
+				change_clr(&sphere_data[sphere_mod],newcolor);
 				break;
 			case '3':
 				//PRINT REPORT
@@ -237,7 +239,7 @@ int pMenu(char *opt,int total){
 	bool stop = false;	
 
 	fprintf(stdout,"MENU:\n");
-	fprintf(stdout,"\t1.Change sphere radius.\n"
+	fprintf(stdout,"\t1.Change sphere radius.\n");
 	fprintf(stdout,"\t2.Change sphere color.\n");
 	fprintf(stdout,"\t3.Print report.\n");
 	fprintf(stdout,"\t4.Exit.\n");
@@ -245,7 +247,7 @@ int pMenu(char *opt,int total){
 	while (stop != true){
 		//reads entire string until newline. we only use first char.
 		str_user[i] = fgetc(stdin);	
-		if (str_user[i] == '\n' || i == (MAX_FILE-1)){
+		if (str_user[i] == '\n' || i == (FILE_MAX-1)){
 			stop = true;
 		}else{
 			i++;
@@ -270,15 +272,17 @@ int pMenu(char *opt,int total){
 
 			}while(resp < 0 || resp > (total-1));
 
-			return resp;
+			return resp;	//we don't need breaks if we return.
 		case '3':
-			*opt = '3';
-			break;		//no sphere needed
+			*opt = '3';	//no sphere needed
+			return -3;	
+			//random negative return int so we have no warning: control reaches
+			//end of non void function 
 		case '4':
-			*opt = '4';	//EXIT
-			break;
+			*opt = '4';	//NOMRAL EXIT
+			return -4;	//same as above
 		default:
-			return -1;	//wrong menu selection.
+			return -1;	//wrong menu selection.Special return.
 
 	}
 
