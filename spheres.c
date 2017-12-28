@@ -58,14 +58,16 @@ int main(void){
 					fscanf(stdin,"%lf",&rad);
 				}while(rad < 0); //negative radius non-valid
 				
-				change_rad(&sphere_data[sphere_mod],rad);
+				change_rad(&sphere_data[sphere_mod-1],rad);//index 0 taking care of
 				break;
 			case '2':
 				//CHANGE COLOR
 				fprintf(stdout,"\nEnter new color:\t");
-				fscanf(stdin,"%c",&newcolor);
 				
-				change_clr(&sphere_data[sphere_mod],newcolor);
+				newcolor = fgetc(stdin);//prevents newline remainder in buffer
+				if (newcolor == '\n') newcolor = fgetc(stdin);//reads char
+				
+				change_clr(&sphere_data[sphere_mod-1],newcolor);
 				break;
 			case '3':
 				//PRINT REPORT
@@ -78,7 +80,7 @@ int main(void){
 				//FAILURE
 				fprintf(stdout,"Menu Error!\n");
 		}
-	}while(num_spheres != -1);
+	}while(sphere_mod != -1);
 	
 	//WRONG MENU. WE EXIT PROGRAM.
 	fprintf(stderr,"Wrong Option!\n\a");
@@ -187,7 +189,7 @@ void print_report(struct sphere *arr_sphere,int num_spheres){
 	char color;
 	char *colores[] = {"Blue","Yellow","Red","Pink","NoColor"};
 
-	fprintf(stdout,"\n\tNumber\t\tRadius\t\tColor\t\tArea\t\tVolume\n");
+	fprintf(stdout,"\n\tNumber\t\t\tRadius\t\t\tColor\t\t\tArea\t\t\tVolume\n");
 	for(int i = 0;i < num_spheres;i++){
 		
 		//getters
@@ -217,7 +219,7 @@ void print_report(struct sphere *arr_sphere,int num_spheres){
 				num_color = 4;
 		}
 		
-		fprintf(stdout,"\t%d\t\t%.2lf\t\t%s\t\t%.2lf\t\t%.2lf\n"
+		fprintf(stdout,"\t%d\t\t\t%.2lf\t\t\t%s\t\t\t%.2lf\t\t\t%.2lf\n"
 		,(i+1),rad,colores[num_color],area,vol);
 	}
 	
@@ -245,13 +247,15 @@ int pMenu(char *opt,int total){
 	fprintf(stdout,"\t4.Exit.\n");
 
 	while (stop != true){
-		//reads entire string until newline. we only use first char.
+		//reads entire user input string until newline. we only use first char.
 		str_user[i] = fgetc(stdin);	
 		if (str_user[i] == '\n' || i == (FILE_MAX-1)){
 			stop = true;
 		}else{
 			i++;
 		}
+		if (str_user[0] == '\n') stop = false; 
+		//unless there was a remainder lonely newline in the buffer. we would ask again.
 	}
 
 	switch (str_user[0]){
@@ -261,7 +265,7 @@ int pMenu(char *opt,int total){
 			do{
 				fscanf(stdin,"%d",&resp); //what happens if user puts char?
 
-			}while(resp < 0 || resp > (total-1));
+			}while(resp <= 0 || resp > total);
 
 			return resp;
 		case '2':
@@ -270,7 +274,7 @@ int pMenu(char *opt,int total){
 			do{
 				fscanf(stdin,"%d",&resp); //I need more error control!
 
-			}while(resp < 0 || resp > (total-1));
+			}while(resp <= 0 || resp > total);
 
 			return resp;	//we don't need breaks if we return.
 		case '3':
